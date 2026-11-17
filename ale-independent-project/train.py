@@ -27,6 +27,12 @@ print("Creating training environment...", flush=True)
 # Use frameskip=1, render_mode=None, frame_skip=4, terminal_on_life_loss=False.
 # Pass seed=SEED to make_atari_env for reproducible setup.
 SEED = 42
+env = make_atari_env(
+    env_id="ALE/Bowling-v5",
+    n_envs=1,
+    env_kwargs={"frameskip":1}
+    wrapper_kwargs={"terminal_on_life_loss": False}
+
 env = None
 if env is None:
     raise NotImplementedError("Complete the environment setup before training.")

@@ -16,7 +16,7 @@ python -m pip install -r requirements.txt
 
 ## 2. Train your AI
 
-- Choose a game other than Breakout from the [game list](https://ale.farama.org/environments/).
+- Choose a game other than Breakout from the [gamelist](https://ale.farama.org/environments/).
 - Complete the TODOs in `train.py`. Use our class code to help.
 - Start with a short run to check that it works.
 - Then increase `TOTAL_TIMESTEPS` and let your AI train. Your teacher will tell you how long to train.

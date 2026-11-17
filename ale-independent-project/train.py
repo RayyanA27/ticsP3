@@ -31,7 +31,7 @@ env = None
 if env is None:
     raise NotImplementedError("Complete the environment setup before training.")
 
-# Give the agent 4 frames so it can see the ball moving.
+#Give the agent 4 frames so it can see the ball moving.
 env = VecFrameStack(env, n_stack=4)
 print("Environment ready!", flush=True)
 

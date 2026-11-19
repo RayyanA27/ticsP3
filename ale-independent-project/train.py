@@ -30,12 +30,42 @@ SEED = 42
 env = make_atari_env(
     env_id="ALE/Bowling-v5",
     n_envs=1,
-    env_kwargs={"frameskip":1}
-    wrapper_kwargs={"terminal_on_life_loss": False}
+    env_kwargs={"frameskip":1},
+    wrapper_kwargs={"terminal_on_life_loss": False},
+    seed=SEED
+)
 
-env = None
-if env is None:
-    raise NotImplementedError("Complete the environment setup before training.")
+env = VecFrameStack(env, n_stack=4)
+print("Environment ready!", flush=True)
+agent = DQN(
+"CnnPolicy",
+    env,
+    learning_rate=0.0001,
+    buffer_size=20_000,
+    learning_starts=1000,
+    batch_size=32,
+    gamma=0.99,
+    verbose=1,
+    seed=SEED,
+)
+agent.save(str(SAVE_DIR/"breakout_initial"))
+print("Initial model saved!", flush=True)
+
+checkpoint = CheckpointCallback(
+    save_freq=CHECKPOINT_FREQUENCY,
+    save_path=str(SAVE_DIR),
+    name_prefix="breakout",
+    verbose=2,
+)
+print("Starting training...", flush=True)
+agent.learn(
+    total_timesteps=TOTAL_TIMESTEPS,
+    callback=checkpoint,
+    log_interval=1, # Print training statistics after every episode
+)
+agent.save(str(SAVE_DIR/"breakout_final"))
+print(f"Training complete! Final model saved to: {SAVE_DIR/'breakout_final.zip'}", flush=True)
+env.close()
 
 #Give the agent 4 frames so it can see the ball moving.
 env = VecFrameStack(env, n_stack=4)
@@ -79,4 +109,3 @@ try:
     print(f"Training complete! Final model saved to: {SAVE_DIR / 'breakout_final.zip'}", flush=True)
 finally:
     env.close()
-

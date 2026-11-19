@@ -14,9 +14,12 @@ WATCH_STEPS = 2000
 agent = DQN.load(MODEL_PATH, device="cpu")
 
 # TODO: Match your training game and wrappers, with render_mode="human".
+render_mode="human"
 watch_env = None
 if watch_env is None:
     raise NotImplementedError("Complete the viewing environment setup.")
+
+    watch_env.close()
 watch_env = VecFrameStack(watch_env, n_stack=4)
 try:
     observation = watch_env.reset()
